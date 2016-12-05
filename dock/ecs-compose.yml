@@ -1,0 +1,47 @@
+version: '2'
+services:
+
+    nginx:
+        image: ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/nginx:latest
+        hostname: nginx
+        cpu_shares: 100
+        mem_limit: 524288000
+        links:
+            - runner
+        ports:
+            - "80:80"
+        command: ./nginx.sh
+    
+    runner:
+        image: ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/runner:latest
+        hostname: runner
+        cpu_shares: 100
+        mem_limit: 524288000
+        volumes:
+            - runner:/var/www/app
+        env_file:
+            - runner/.env
+            - rabbit/.env
+   
+    worker:
+        image: ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/worker:latest
+        hostname: worker 
+        cpu_shares: 100
+        mem_limit: 524288000
+        volumes_from:
+            - runner
+        links:
+            - rabbit
+        env_file:
+            - runner/.env
+            - rabbit/.env
+            - worker/.env
+        command: ./dock/worker/worker.sh
+
+    rabbit:
+        image: ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/rabbit:latest
+        hostname: rabbit
+        cpu_shares: 100
+        mem_limit: 524288000
+        env_file:
+            - rabbit/.env

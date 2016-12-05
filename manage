@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+"""
+multi.api.manage
+~~~~~~~~~~~~~~~~~~~
+A management script which contains subcommands useful for administration,
+it can be invoked from project root with './manage [subcommand]'. For more
+information try './manage --help'
+
+:copyright: (c) 2016 Pinn
+:license: All rights reserved
+
+"""
+
+import click
+import management as m
+import subprocess
+
+
+@click.group()
+def manage():
+    pass
+
+# Add subcommands
+manage.add_command(m.build)
+manage.add_command(m.deploy)
+manage.add_command(m.compose)
+manage.add_command(m.clean)
+
+if __name__ == '__main__':
+    subprocess.call(["stty", "sane"])
+    manage()

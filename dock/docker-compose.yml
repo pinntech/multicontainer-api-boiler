@@ -1,0 +1,47 @@
+version: '2'
+services:
+
+    nginx:
+        container_name: nginx
+        hostname: nginx
+        build: nginx/
+        # network_mode: "host"
+        depends_on:
+            - runner
+        ports:
+            - "80:80"
+        command: ./nginx.sh
+    
+    runner:
+        container_name: runner
+        hostname: runner
+        build: 
+            context: ..
+            dockerfile: dock/runner/Dockerfile
+        # network_mode: "host"
+        env_file:
+           - runner/.env
+           - rabbit/.env
+   
+    worker:
+        container_name: worker
+        hostname: worker 
+        build: worker/
+        # network_mode: "host"
+        volumes_from:
+            - runner
+        depends_on:
+            - rabbit
+        env_file:
+            - runner/.env
+            - rabbit/.env
+            - worker/.env
+        command: ./dock/worker/worker.sh
+
+    rabbit:
+        container_name: rabbit
+        hostname: rabbit
+        build: rabbit/
+        # network_mode: "host"
+        env_file:
+            - rabbit/.env

@@ -1,0 +1,58 @@
+{
+    "family": "multi",
+    "networkMode": "host",
+    "containerDefinitions": [
+        {
+            "name": "nginx",
+            "image": "ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/nginx:latest",
+            "essential": true,
+            "memory": 128,
+            "cpu": 100,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                }
+            ],
+            "command": [
+                "./nginx.sh"
+            ]
+        },
+        {
+            "name": "runner",
+            "image": "ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/runner:latest",
+            "essential": true,
+            "memory": 128,
+            "cpu": 100,
+            "mountPoints": [
+                {
+                    "sourceVolume": "runner",
+                    "containerPath": "/var/www/app"
+                }
+            ]
+        },
+        {
+            "name": "worker",
+            "image": "ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/worker:latest",
+            "essential": true,
+            "memory": 128,
+            "cpu": 100,
+            "volumesFrom": [
+                {
+                    "sourceContainer": "runner",
+                    "readOnly": false
+                }
+            ],
+            "command": [
+                "./dock/worker/worker.sh"
+            ]
+        },
+        {
+            "name": "rabbit",
+            "image": "ecr-repository-number.dkr.ecr.us-west-1.amazonaws.com/rabbit:latest",
+            "essential": true,
+            "memory": 128,
+            "cpu": 100
+        }
+    ]
+}
