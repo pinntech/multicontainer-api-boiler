@@ -1,5 +1,7 @@
 *Boiler plate api with docker managed containers that communicate and are elastic beanstalk ready.*
 
+Further Explanations: http://www.timchi.co/single-post/2016/11/10/Docker-izing-Production-Quality-APIs
+
 ## Table of Contents
 
 - [Multi](#multi)
