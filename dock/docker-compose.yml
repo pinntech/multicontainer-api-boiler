@@ -1,3 +1,4 @@
+# Uncomment network_modes to run on host
 version: '2'
 services:
 
