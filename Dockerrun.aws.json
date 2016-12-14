@@ -28,6 +28,12 @@
             "cpu": 100,
             "links": [
                 "rabbit"
+            ],
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 8000
+                }
             ]
         },
         {
