@@ -18,6 +18,12 @@
             ],
             "command": [
                 "./nginx.sh"
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "awseb-logs-nginx",
+                    "containerPath": "/var/log/nginx"
+                }
             ]
         },
         {
@@ -34,7 +40,14 @@
                     "containerPort": 8000,
                     "hostPort": 8000
                 }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "awseb-logs-runner",
+                    "containerPath": "/var/log/runner"
+                }
             ]
+
         },
         {
             "name": "worker",
@@ -52,14 +65,28 @@
             ],
             "command": [
                 "./dock/worker/worker.sh"
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "awseb-logs-worker",
+                    "containerPath": "/var/log/worker"
+                }
             ]
+
         },
         {
             "name": "rabbit",
             "image": "ecr-repository.dkr.ecr.us-west-1.amazonaws.com/rabbit:latest",
             "essential": true,
             "memory": 128,
-            "cpu": 100
+            "cpu": 100,
+            "mountPoints": [
+                {
+                    "sourceVolume": "awseb-logs-rabbit",
+                    "containerPath": "/var/log/rabbit"
+                }
+            ]
+
         }
     ]
 }
