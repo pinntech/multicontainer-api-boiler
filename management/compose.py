@@ -21,7 +21,7 @@ def clean(ecs, volumes, images):
     call.append('down')
     subprocess.call(call)
     # Remove images created from docker-compose up
-    click.secho('+\n++\n+++ Removing images from project*...', fg='white')
+    click.secho('+\n++\n+++ Removing images from project...', fg='white')
     if ecs or images:
         call = ['docker', 'rmi']
         if ecs:

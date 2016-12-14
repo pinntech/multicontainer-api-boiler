@@ -17,5 +17,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN sed -i '15i\ \tclient_max_body_size 75M;' /etc/nginx/nginx.conf
 
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
 # EXPOSE 80
 CMD ["usr/sbin/nginx"]

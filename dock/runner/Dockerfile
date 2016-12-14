@@ -14,5 +14,8 @@ ENV DEBIAN_FRONTEND noninteractive
 ADD . .
 VOLUME ["/var/www/app"]
 
+# Expose logging
+RUN ln -sf /dev/stdout /var/log/uwsgi/app.log
+
 EXPOSE 80
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/app.conf"]
